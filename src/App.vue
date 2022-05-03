@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavBar :logo_src="logo_src" :app_name="app_name" />
   <router-view />
   <Footer />
 </template>
@@ -13,5 +13,32 @@ export default {
     NavBar,
     Footer,
   },
+  data() {
+    return {
+      logo_src: "/img/logo.png",
+      app_name: "make your burger",
+    };
+  },
 };
 </script>
+
+<style>
+* {
+  font-family: Helvetica;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+  margin: 50px;
+  min-height: 250px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 30px;
+  color: #222;
+}
+</style>
