@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form id="burger-form">
+    <form id="burger-form" @submit.prevent="createBurger">
       <div class="input-container">
         <label for="name">Nome do Cliente</label>
         <input
@@ -63,6 +63,7 @@ export default {
   name: "BurgerForm",
   data() {
     return {
+      BASE_URL: "http://localhost:3000",
       breadData: null,
       meatData: null,
       optionalData: null,
@@ -76,12 +77,40 @@ export default {
   },
   methods: {
     async getIngredients() {
-      const req = await fetch("http://localhost:3000/ingredientes");
+      const req = await fetch(`${this.BASE_URL}/ingredientes`);
       const data = await req.json();
 
       this.breadData = data.paes;
       this.meatData = data.carnes;
       this.optionalData = data.opcionais;
+    },
+    async createBurger() {
+      const data = {
+        nome: this.name,
+        pao: this.bread,
+        carne: this.meat,
+        opcionais: this.optionals,
+      };
+
+      const dataJson = JSON.stringify(data);
+
+      const req = await fetch(`${this.BASE_URL}/burgers`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: dataJson,
+      });
+
+      this.clearFormFields();
+
+      const res = await req.json();
+
+      console.log(res);
+    },
+    clearFormFields() {
+      this.name = "";
+      this.bread = "";
+      this.meat = "";
+      this.optionals = "";
     },
   },
   mounted() {

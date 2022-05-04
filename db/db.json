@@ -77,5 +77,26 @@
       "tipo": "Finalizado"
     }
   ],
-  "burgers": []
+  "burgers": [
+    {
+      "nome": "Patrick Dack",
+      "pao": "3 Queijos",
+      "carne": "Alcatra",
+      "opcionais": [
+        "Bacon",
+        "Cheddar"
+      ],
+      "id": 1
+    },
+    {
+      "nome": "Carlos Eduardo",
+      "pao": "3 Queijos",
+      "carne": "Picanha",
+      "opcionais": [
+        "Salame",
+        "Tomate"
+      ],
+      "id": 2
+    }
+  ]
 }
