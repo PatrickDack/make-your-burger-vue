@@ -1,66 +1,74 @@
 <template>
   <div>
-    <form id="burger-form" @submit.prevent="createBurger">
-      <div class="input-container">
-        <label for="name">Nome do Cliente</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          v-model="name"
-          placeholder="Digite o seu Nome"
-        />
-      </div>
-      <div class="input-container">
-        <label for="bread">Escolha o seu Pão</label>
-        <select name="bread" id="bread" v-model="bread">
-          <option value="">Selecione o tipo do Pão</option>
-          <option
-            v-for="bread in breadData"
-            :key="bread.id"
-            :value="bread.tipo"
-          >
-            {{ bread.tipo }}
-          </option>
-        </select>
-      </div>
-      <div class="input-container">
-        <label for="meat">Escolha a carne do seu Burger</label>
-        <select name="meat" id="meat" v-model="meat">
-          <option value="">Selecione o tipo de carne</option>
-          <option v-for="meat in meatData" :key="meat.id" :value="meat.tipo">
-            {{ meat.tipo }}
-          </option>
-        </select>
-      </div>
-      <div id="optional-container" class="input-container">
-        <label id="optional-title" for="optionals"
-          >Selecione os Opcionais</label
-        >
-        <div
-          v-for="optional in optionalData"
-          :key="optional.id"
-          class="checkbox-container"
-        >
+    <Message :msg="msg" v-model="msg" v-if="msg" />
+    <div>
+      <form id="burger-form" @submit.prevent="createBurger">
+        <div class="input-container">
+          <label for="name">Nome do Cliente</label>
           <input
-            type="checkbox"
-            name="optionals"
-            v-model="optionals"
-            :value="optional.tipo"
+            type="text"
+            name="name"
+            id="name"
+            v-model="name"
+            placeholder="Digite o seu Nome"
           />
-          <span>{{ optional.tipo }}</span>
         </div>
-      </div>
-      <div class="input-container">
-        <input type="submit" class="submit-btn" value="Criar meu Burger!" />
-      </div>
-    </form>
+        <div class="input-container">
+          <label for="bread">Escolha o seu Pão</label>
+          <select name="bread" id="bread" v-model="bread">
+            <option value="">Selecione o tipo do Pão</option>
+            <option
+              v-for="bread in breadData"
+              :key="bread.id"
+              :value="bread.tipo"
+            >
+              {{ bread.tipo }}
+            </option>
+          </select>
+        </div>
+        <div class="input-container">
+          <label for="meat">Escolha a carne do seu Burger</label>
+          <select name="meat" id="meat" v-model="meat">
+            <option value="">Selecione o tipo de carne</option>
+            <option v-for="meat in meatData" :key="meat.id" :value="meat.tipo">
+              {{ meat.tipo }}
+            </option>
+          </select>
+        </div>
+        <div id="optional-container" class="input-container">
+          <label id="optional-title" for="optionals"
+            >Selecione os Opcionais</label
+          >
+          <div
+            v-for="optional in optionalData"
+            :key="optional.id"
+            class="checkbox-container"
+          >
+            <input
+              type="checkbox"
+              name="optionals"
+              v-model="optionals"
+              :value="optional.tipo"
+            />
+            <span>{{ optional.tipo }}</span>
+          </div>
+        </div>
+        <div class="input-container">
+          <input type="submit" class="submit-btn" value="Criar meu Burger!" />
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import Message from "../components/Message.vue";
+
 export default {
   name: "BurgerForm",
+  components: {
+    Message,
+  },
   data() {
     return {
       BASE_URL: "http://localhost:3000",
@@ -104,7 +112,11 @@ export default {
 
       const res = await req.json();
 
-      console.log(res);
+      this.msg = `Pedido N ${res.id} realizado com sucesso!`;
+
+      setTimeout(() => {
+        this.msg = null;
+      }, 3000);
     },
     clearFormFields() {
       this.name = "";
