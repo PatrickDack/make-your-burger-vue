@@ -1,5 +1,6 @@
 <template>
   <div id="burger-table">
+    <Message :msg="msg" v-model="msg" v-if="msg" />
     <div>
       <div id="burger-table-heading">
         <div class="order-id">#:</div>
@@ -24,11 +25,15 @@
           </ul>
         </div>
         <div>
-          <select name="status" class="status">
+          <select
+            name="status"
+            class="status"
+            @change="updateOrder($event, burger.id)"
+          >
             <option
               v-for="stat in status"
               :key="stat.id"
-              value="stat.tipo"
+              :value="stat.tipo"
               :selected="stat.tipo === burger.status"
             >
               {{ stat.tipo }}
@@ -44,6 +49,8 @@
 </template>
 
 <script>
+import Message from "./Message.vue";
+
 export default {
   name: "DashBoard",
   data() {
@@ -52,7 +59,11 @@ export default {
       burgers: null,
       burguerId: null,
       status: [],
+      msg: null,
     };
+  },
+  components: {
+    Message,
   },
   methods: {
     async getOrders() {
@@ -69,13 +80,34 @@ export default {
       return data;
     },
     async deleteOrder(id) {
-      const req = await fetch(`${this.BASE_URL}/burgers/${id}`, {
+      await fetch(`${this.BASE_URL}/burgers/${id}`, {
         method: "DELETE",
+      });
+
+      this.msg = `Pedido removido com secesso!`;
+
+      setTimeout(() => {
+        this.msg = null;
+      }, 3000);
+
+      this.getOrders();
+    },
+    async updateOrder(event, id) {
+      const option = event.target.value;
+      const dataJson = JSON.stringify({ status: option });
+
+      const req = await fetch(`${this.BASE_URL}/burgers/${id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: dataJson,
       });
 
       const res = await req.json();
 
-      this.getOrders();
+      this.msg = `Status do pedido ${res.id} atualizado para ${res.status}`;
+
+      setTimeout(() => (this.msg = null), 3000);
+      console.log(res);
     },
   },
   mounted() {

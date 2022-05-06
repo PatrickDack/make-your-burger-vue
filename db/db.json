@@ -79,17 +79,6 @@
   ],
   "burgers": [
     {
-      "nome": "Patrick Dack",
-      "pao": "3 Queijos",
-      "carne": "Alcatra",
-      "opcionais": [
-        "Bacon",
-        "Cheddar"
-      ],
-      "status": "Solicitado",
-      "id": 1
-    },
-    {
       "nome": "Carlos Eduardo",
       "pao": "3 Queijos",
       "carne": "Picanha",
@@ -97,20 +86,8 @@
         "Salame",
         "Tomate"
       ],
-      "status": "Solicitado",
+      "status": "Em produção",
       "id": 2
-    },
-    {
-      "nome": "Victor",
-      "pao": "Integral",
-      "carne": "Picanha",
-      "opcionais": [
-        "Bacon",
-        "Salame",
-        "Cebola roxa"
-      ],
-      "status": "Solicitado",
-      "id": 6
     },
     {
       "nome": "Harrisson",
