@@ -34,7 +34,9 @@
               {{ stat.tipo }}
             </option>
           </select>
-          <button class="delete-btn">Cancelar</button>
+          <button class="delete-btn" @click="deleteOrder(burger.id)">
+            Cancelar
+          </button>
         </div>
       </div>
     </div>
@@ -65,6 +67,15 @@ export default {
       this.status = data;
 
       return data;
+    },
+    async deleteOrder(id) {
+      const req = await fetch(`${this.BASE_URL}/burgers/${id}`, {
+        method: "DELETE",
+      });
+
+      const res = await req.json();
+
+      this.getOrders();
     },
   },
   mounted() {
