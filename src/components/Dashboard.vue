@@ -25,7 +25,14 @@
         </div>
         <div>
           <select name="status" class="status">
-            <option value="">Selecione</option>
+            <option
+              v-for="stat in status"
+              :key="stat.id"
+              value="stat.tipo"
+              :selected="stat.tipo === burger.status"
+            >
+              {{ stat.tipo }}
+            </option>
           </select>
           <button class="delete-btn">Cancelar</button>
         </div>
@@ -51,17 +58,26 @@ export default {
       const data = await req.json();
       this.burgers = data;
     },
+    async getStatus() {
+      const req = await fetch(`${this.BASE_URL}/status`);
+      const data = await req.json();
+
+      this.status = data;
+
+      return data;
+    },
   },
   mounted() {
     this.getOrders();
+    this.getStatus();
   },
 };
 </script>
 
 <style scoped>
 #burguer-table {
-  max-width: 1200px;
   margin: 0 auto;
+  max-width: 1200px;
 }
 
 #burger-table-heading,
@@ -72,9 +88,9 @@ export default {
 }
 
 #burger-table-heading {
+  border-bottom: 3px solid #333;
   font-weight: bold;
   padding: 12px;
-  border-bottom: 3px solid #333;
 }
 
 #burger-table-heading div,
@@ -83,9 +99,9 @@ export default {
 }
 
 .burger-table-row {
-  width: 100%;
-  padding: 12px;
   border-bottom: 1px solid #ccc;
+  padding: 12px;
+  width: 100%;
 }
 
 #burger-table-heading .order-id,
@@ -94,19 +110,19 @@ export default {
 }
 
 select {
-  padding: 12px 6px;
   margin-right: 12px;
+  padding: 12px 6px;
 }
 
 .delete-btn {
   background-color: #222;
-  color: #fcba03;
-  font-weight: bold;
   border: 2px solid #222;
-  padding: 10px;
-  font-size: 16px;
-  margin: 0 auto;
+  color: #fcba03;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px;
   transition: 0.5s;
 }
 
