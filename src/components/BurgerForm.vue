@@ -98,6 +98,7 @@ export default {
         pao: this.bread,
         carne: this.meat,
         opcionais: this.optionals,
+        status: this.status,
       };
 
       const dataJson = JSON.stringify(data);
